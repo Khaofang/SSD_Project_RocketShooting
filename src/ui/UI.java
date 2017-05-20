@@ -3,34 +3,44 @@ package ui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.Game;
 
 public class UI extends JFrame implements KeyListener, Observer {
 	
+	private static ImageIcon iiRocket = new ImageIcon("src/res/rocket.png");
+	private static ImageIcon iiEnemy = new ImageIcon("src/res/enemy.png");
+	private static ImageIcon iiObstacle;
+	
 	private JPanel panel;
+	private JPanel panelRocket;
+	
+	private JLabel lblRocket;
+	private JLabel lblPressToStart;
 	
 	// TODO: Component
 	
-	// TODO: Attribute
 	private Game game;
 
 	public UI(Game game) {
 		this.game = game;
-		panel = new JPanel();
+		panel = (JPanel) getContentPane();
 		panel.setPreferredSize(new Dimension(840, 480));
 		panel.setBackground(new Color(186, 205, 168));
-		panel.setLayout(new FlowLayout());
-		panel.setPreferredSize(new Dimension(840, 480));
+		panel.setLayout(null);
 		initComponent();
-		add(panel);
+		
+		setTitle("Rocket Shooting");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		pack();
@@ -41,7 +51,16 @@ public class UI extends JFrame implements KeyListener, Observer {
 	}
 	
 	public void initComponent() {
-		// TODO: implement components
+		lblRocket = new JLabel(iiRocket);
+		panel.add(lblRocket);
+		lblRocket.setBounds(16, 192, 64, 64);
+		
+		lblPressToStart = new JLabel("< SPACE TO START >");
+		lblPressToStart.setFont(new Font(lblPressToStart.getFont().toString(), Font.BOLD, 32));
+		panel.add(lblPressToStart);
+		lblPressToStart.setBounds(480, 208, lblPressToStart.getPreferredSize().width, lblPressToStart.getPreferredSize().height);
+		
+		// TODO: implement more components
 		
 	}
 
@@ -53,22 +72,23 @@ public class UI extends JFrame implements KeyListener, Observer {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// Case Game is not started
-		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-			
+		if (game.isPlaying()) {
+			if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
+				// TODO: make rocket moves up
+			} else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
+				// TODO: make rocket moves down
+			}
+		} else {
+			if (e.getKeyChar() == ' ') {
+				// TODO: make label disappear and start game
+			}
 		}
-		
-		// Case Game is playing
-		
-		
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -80,6 +100,7 @@ public class UI extends JFrame implements KeyListener, Observer {
 	public static void main(String[] args) {
 		Game g = new Game();
 		UI ui = new UI(g);
+		g.addObserver(ui);
 		ui.run();
 	}
 	

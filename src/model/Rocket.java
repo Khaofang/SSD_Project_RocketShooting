@@ -19,6 +19,10 @@ public class Rocket {
 		return instance;
 	}
 	
+	public void move(int dY) {
+		y += dY;
+	}
+	
 	// TODO: implement methods that be required for game
 	
 }
