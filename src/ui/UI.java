@@ -18,12 +18,13 @@ import model.Game;
 
 public class UI extends JFrame implements KeyListener, Observer {
 	
-	private static ImageIcon iiRocket = new ImageIcon("src/res/rocket.png");
-	private static ImageIcon iiEnemy = new ImageIcon("src/res/enemy.png");
-	private static ImageIcon iiObstacle;
+	private static ImageIcon II_ROCKET = new ImageIcon("src/res/rocket.png");
+	private static ImageIcon II_ENEMY = new ImageIcon("src/res/enemy.png");
+	private static ImageIcon II_OBSTACLE; // Not implements resource yet
+	private static int UI_WIDTH = 840;
+	private static int UI_HEIGHT = 480;
 	
 	private JPanel panel;
-	private JPanel panelRocket;
 	
 	private JLabel lblRocket;
 	private JLabel lblPressToStart;
@@ -35,10 +36,11 @@ public class UI extends JFrame implements KeyListener, Observer {
 	public UI(Game game) {
 		this.game = game;
 		panel = (JPanel) getContentPane();
-		panel.setPreferredSize(new Dimension(840, 480));
+		panel.setPreferredSize(new Dimension(UI_WIDTH, UI_HEIGHT));
 		panel.setBackground(new Color(186, 205, 168));
 		panel.setLayout(null);
 		initComponent();
+		this.addKeyListener(this);
 		
 		setTitle("Rocket Shooting");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -51,9 +53,10 @@ public class UI extends JFrame implements KeyListener, Observer {
 	}
 	
 	public void initComponent() {
-		lblRocket = new JLabel(iiRocket);
+		lblRocket = new JLabel(II_ROCKET);
 		panel.add(lblRocket);
 		lblRocket.setBounds(16, 192, 64, 64);
+		game.getRocket().setY(192);
 		
 		lblPressToStart = new JLabel("< SPACE TO START >");
 		lblPressToStart.setFont(new Font(lblPressToStart.getFont().toString(), Font.BOLD, 32));
@@ -66,35 +69,46 @@ public class UI extends JFrame implements KeyListener, Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
+		if (arg instanceof Game.UpdateData) {
+			// TODO: update ui with update data from game
+		}
+		
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
+	public void keyTyped(KeyEvent e) {	
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {	
+		System.out.println("Key is typing : " + e.getKeyCode());
 		if (game.isPlaying()) {
-			if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
+			if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
+				System.out.println("UP");
+				
 				// TODO: make rocket moves up
-			} else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
+				
+			} else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
+				System.out.println("DOWN");
+				
 				// TODO: make rocket moves down
+			
 			}
 		} else {
-			if (e.getKeyChar() == ' ') {
-				// TODO: make label disappear and start game
+			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+				game.startGame();
+				lblPressToStart.setVisible(false);
+				panel.remove(lblPressToStart);
+				
+				// TODO: check any use cases implement more
 			}
 		}
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 	
 	public static void main(String[] args) {

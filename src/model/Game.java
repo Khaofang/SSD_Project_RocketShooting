@@ -12,7 +12,11 @@ public class Game extends Observable {
 	// TODO: implement other attributes later
 	
 	public Game() {
-		
+		rocket = Rocket.getInstance();
+	}
+	
+	public Rocket getRocket() {
+		return rocket;
 	}
 	
 	public boolean isPlaying() {
