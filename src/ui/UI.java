@@ -28,6 +28,7 @@ public class UI extends JFrame implements KeyListener, Observer {
 	
 	private JLabel lblRocket;
 	private JLabel lblPressToStart;
+	private JLabel lblScore;
 	
 	// TODO: Component
 	
@@ -62,6 +63,11 @@ public class UI extends JFrame implements KeyListener, Observer {
 		lblPressToStart.setFont(new Font(lblPressToStart.getFont().toString(), Font.BOLD, 32));
 		panel.add(lblPressToStart);
 		lblPressToStart.setBounds(480, 240, lblPressToStart.getPreferredSize().width, lblPressToStart.getPreferredSize().height);
+		
+		lblScore = new JLabel(String.format("%05d", game.getScore()));
+		lblScore.setFont(new Font(lblPressToStart.getFont().toString(), Font.BOLD, 32));
+		panel.add(lblScore);
+		lblScore.setBounds(740, 0, lblScore.getPreferredSize().width, lblScore.getPreferredSize().height);
 		
 		// TODO: implement more components
 		

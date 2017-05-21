@@ -9,6 +9,7 @@ public class Game extends Observable {
 	private List<Opponent> opponents;
 	
 	private boolean playing;
+	private int score;
 	// TODO: implement other attributes later
 	
 	public Game() {
@@ -17,6 +18,10 @@ public class Game extends Observable {
 	
 	public Rocket getRocket() {
 		return rocket;
+	}
+	
+	public int getScore() {
+		return score;
 	}
 	
 	public boolean isPlaying() {
