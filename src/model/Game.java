@@ -57,6 +57,8 @@ public class Game extends Observable {
 	
 	private class ReplayData {
 		
+		List<GameData> datas;
+		
 	}
 	
 	public class UpdateData {
