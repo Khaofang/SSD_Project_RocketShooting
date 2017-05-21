@@ -23,6 +23,22 @@ public class Game extends Observable {
 		return playing;
 	}
 	
+	public boolean moveRocketUp(int rocketSize, int lowerBound) {
+		if (rocket.getY() <= lowerBound)
+			return false;
+		
+		rocket.move((-1) * rocketSize);
+		return true;
+	}
+	
+	public boolean moveRocketDown(int rocketSize, int upperBound) {
+		if (rocket.getY() + rocketSize >= upperBound)
+			return false;
+		
+		rocket.move(rocketSize);
+		return true;
+	}
+	
 	public void startGame() {
 		playing = true;
 	}

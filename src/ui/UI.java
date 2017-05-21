@@ -55,13 +55,13 @@ public class UI extends JFrame implements KeyListener, Observer {
 	public void initComponent() {
 		lblRocket = new JLabel(II_ROCKET);
 		panel.add(lblRocket);
-		lblRocket.setBounds(16, 192, 64, 64);
-		game.getRocket().setY(192);
+		lblRocket.setBounds(16, 240, 64, 64);
+		game.getRocket().setY(240);
 		
 		lblPressToStart = new JLabel("< SPACE TO START >");
 		lblPressToStart.setFont(new Font(lblPressToStart.getFont().toString(), Font.BOLD, 32));
 		panel.add(lblPressToStart);
-		lblPressToStart.setBounds(480, 208, lblPressToStart.getPreferredSize().width, lblPressToStart.getPreferredSize().height);
+		lblPressToStart.setBounds(480, 240, lblPressToStart.getPreferredSize().width, lblPressToStart.getPreferredSize().height);
 		
 		// TODO: implement more components
 		
@@ -86,23 +86,19 @@ public class UI extends JFrame implements KeyListener, Observer {
 		System.out.println("Key is typing : " + e.getKeyCode());
 		if (game.isPlaying()) {
 			if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
-				System.out.println("UP");
-				
-				// TODO: make rocket moves up
-				
+				game.moveRocketUp(64, 64);
+				int y = game.getRocket().getY();
+				lblRocket.setBounds(16, y, 64, 64);			
 			} else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
-				System.out.println("DOWN");
-				
-				// TODO: make rocket moves down
-			
+				game.moveRocketDown(64, 416);
+				int y = game.getRocket().getY();
+				lblRocket.setBounds(16, y, 64, 64);	
 			}
 		} else {
 			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 				game.startGame();
 				lblPressToStart.setVisible(false);
 				panel.remove(lblPressToStart);
-				
-				// TODO: check any use cases implement more
 			}
 		}
 	}
