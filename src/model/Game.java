@@ -54,11 +54,11 @@ public class Game extends Observable {
 					
 					System.out.println("Shoot!");
 					
-					//setChanged();
-					//notifyObservers();
+					setChanged();
+					notifyObservers();
 					
 					try {
-						Thread.sleep(500);
+						Thread.sleep(250);
 					} catch (Exception e) {	
 					}
 					
@@ -81,10 +81,6 @@ public class Game extends Observable {
 	private class ReplayData {
 		
 		List<GameData> datas;
-		
-	}
-	
-	public class UpdateData {
 		
 	}
 	

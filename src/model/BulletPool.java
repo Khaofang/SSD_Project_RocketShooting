@@ -9,20 +9,27 @@ public class BulletPool {
 	
 	public BulletPool() {
 		bullets = new ArrayList<Bullet>();
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < 30; i++) {
 			Bullet b = new Bullet();
 			bullets.add(b);
 		}
 	}
 	
-	public void launch() {
+	public List<Bullet> getBullets() {
+		return bullets;
+	}
+	
+	public void launch(int y) {
 		boolean launchNew = false;
 		for (int i = 0; i < bullets.size(); i++) {
 			Bullet b = bullets.get(i);
-			if (b.isActive())
-				b.shift(16);
-			else if (!launchNew) {
-				b.active();
+			if (b.isActive()) {
+				b.shift(64);
+				if (b.isHit())
+					b.deactive();
+			} else if (!launchNew) {
+				b.active(y + 28);
+				launchNew = true;
 			}
 		}
 	

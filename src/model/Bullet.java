@@ -18,9 +18,10 @@ public class Bullet {
 		return y;
 	}
 	
-	public void active() {
+	public void active(int y) {
 		active = true;
-		x = 60;
+		x = 80;
+		this.y = y;
 	}
 	
 	public void deactive() {
@@ -33,6 +34,10 @@ public class Bullet {
 	
 	public void shift(int dX) {
 		x += dX;
+	}
+	
+	public boolean isHit() {
+		return x >= 840;
 	}
 	
 }

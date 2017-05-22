@@ -39,7 +39,7 @@ public class Rocket {
 	}
 	
 	public void shoot() {
-		bp.launch();
+		bp.launch(y);
 	}
 	// TODO: implement methods that be required for game
 	
