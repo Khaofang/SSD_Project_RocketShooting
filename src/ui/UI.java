@@ -55,7 +55,7 @@ public class UI extends JFrame implements KeyListener, Observer {
 			lblRocketBullet.get(i).setVisible(false);
 		}
 		
-		setTitle("Rocket Shooting v0.15");
+		setTitle("Rocket Shooting v0.16");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		pack();

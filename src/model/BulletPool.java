@@ -9,7 +9,7 @@ public class BulletPool {
 	
 	public BulletPool() {
 		bullets = new ArrayList<Bullet>();
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < 15; i++) {
 			Bullet b = new Bullet();
 			bullets.add(b);
 		}

@@ -6,7 +6,7 @@ import java.util.Observable;
 public class Game extends Observable {
 
 	private Rocket rocket;
-	private List<Opponent> opponents;
+	private OpponentPool op;
 	
 	private boolean playing;
 	private int score;
