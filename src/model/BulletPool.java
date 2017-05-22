@@ -16,7 +16,16 @@ public class BulletPool {
 	}
 	
 	public void launch() {
-		// TODO: make bullet active
+		boolean launchNew = false;
+		for (int i = 0; i < bullets.size(); i++) {
+			Bullet b = bullets.get(i);
+			if (b.isActive())
+				b.shift(16);
+			else if (!launchNew) {
+				b.active();
+			}
+		}
+	
 	}
 	
 }

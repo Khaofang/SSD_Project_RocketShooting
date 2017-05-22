@@ -46,7 +46,30 @@ public class Game extends Observable {
 	
 	public void startGame() {
 		playing = true;
+		Thread thread = new Thread() {
+			@Override
+			public void run() {
+				while (isPlaying()) {
+					rocket.shoot();
+					
+					System.out.println("Shoot!");
+					
+					//setChanged();
+					//notifyObservers();
+					
+					try {
+						Thread.sleep(500);
+					} catch (Exception e) {	
+					}
+					
+					// TODO: other tasks
+					
+				}
+			}
+		};
+		thread.start();
 	}
+
 	
 	public class GameData {
 		

@@ -22,6 +22,10 @@ public class Rocket {
 		return instance;
 	}
 	
+	public BulletPool getBulletPool() {
+		return bp;
+	}
+	
 	public int getY() {
 		return y;
 	}
@@ -34,6 +38,9 @@ public class Rocket {
 		y += dY;
 	}
 	
+	public void shoot() {
+		bp.launch();
+	}
 	// TODO: implement methods that be required for game
 	
 }

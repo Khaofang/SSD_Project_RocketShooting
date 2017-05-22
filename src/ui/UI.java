@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -18,14 +20,16 @@ import model.Game;
 
 public class UI extends JFrame implements KeyListener, Observer {
 	
-	private static ImageIcon II_ROCKET = new ImageIcon("src/res/rocket.png");
+	private static ImageIcon II_BULLET_ROCKET = new ImageIcon("src/res/rocket_bullet.png");
 	private static ImageIcon II_ENEMY = new ImageIcon("src/res/enemy.png");
+	private static ImageIcon II_ROCKET = new ImageIcon("src/res/rocket.png");
 	private static ImageIcon II_OBSTACLE; // Not implements resource yet
 	private static int UI_WIDTH = 840;
 	private static int UI_HEIGHT = 480;
 	
 	private JPanel panel;
 	
+	private List<JLabel> lblRocketBullet;
 	private JLabel lblRocket;
 	private JLabel lblPressToStart;
 	private JLabel lblScore;
@@ -42,6 +46,13 @@ public class UI extends JFrame implements KeyListener, Observer {
 		panel.setLayout(null);
 		initComponent();
 		this.addKeyListener(this);
+		
+		/*lblRocketBullet = new ArrayList<JLabel>();
+		for (int i = 0; i < 15; i++) {
+			lblRocketBullet.add(new JLabel(II_BULLET_ROCKET));
+			panel.add(lblRocketBullet.get(i));
+			lblRocketBullet.get(i).setVisible(false);
+		}*/
 		
 		setTitle("Rocket Shooting");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -75,12 +86,11 @@ public class UI extends JFrame implements KeyListener, Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if (arg instanceof Game.UpdateData) {
-			// TODO: update ui with update data from game
+		if (game.isPlaying()) {
+			lblPressToStart.setVisible(false);
 		}
-		
-		// TODO Auto-generated method stub
 
+		System.out.println("UPDATE!");
 	}
 
 	@Override
@@ -90,6 +100,11 @@ public class UI extends JFrame implements KeyListener, Observer {
 	@Override
 	public void keyPressed(KeyEvent e) {	
 		System.out.println("Key is typing : " + e.getKeyCode());
+		
+		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			lblPressToStart.setVisible(false);
+		}
+		
 		if (game.isPlaying()) {
 			if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
 				game.moveRocketUp(64, 64);
@@ -103,8 +118,6 @@ public class UI extends JFrame implements KeyListener, Observer {
 		} else {
 			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 				game.startGame();
-				lblPressToStart.setVisible(false);
-				panel.remove(lblPressToStart);
 			}
 		}
 	}
