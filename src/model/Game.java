@@ -14,6 +14,7 @@ public class Game extends Observable {
 	
 	public Game() {
 		rocket = Rocket.getInstance();
+		op = new OpponentPool();
 	}
 	
 	public Rocket getRocket() {
@@ -49,13 +50,19 @@ public class Game extends Observable {
 		Thread thread = new Thread() {
 			@Override
 			public void run() {
+				int i = 0;
 				while (isPlaying()) {
 					rocket.shoot();
 					
 					System.out.println("Shoot!");
 					
+					if (i % 3 == 0)
+					op.launch();
+					
 					setChanged();
 					notifyObservers();
+					
+					i = (i + 1) % 3;
 					
 					try {
 						Thread.sleep(250);
