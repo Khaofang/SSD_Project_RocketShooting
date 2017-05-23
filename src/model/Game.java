@@ -21,6 +21,10 @@ public class Game extends Observable {
 		return rocket;
 	}
 	
+	public OpponentPool getOp() {
+		return op;
+	}
+	
 	public int getScore() {
 		return score;
 	}
@@ -52,20 +56,22 @@ public class Game extends Observable {
 			public void run() {
 				int i = 0;
 				while (isPlaying()) {
-					rocket.shoot();
+					rocket.getBulletPool().move();
+					if (i % 10 == 2)
+						rocket.shoot();
 					
-					System.out.println("Shoot!");
-					
-					if (i % 3 == 0)
-					op.launch();
+					op.move();
+					if (i % 30 == 2) {
+						op.launch();
+					}
 					
 					setChanged();
 					notifyObservers();
 					
-					i = (i + 1) % 3;
+					i++;
 					
 					try {
-						Thread.sleep(380);
+						Thread.sleep(40);
 					} catch (Exception e) {	
 					}
 					

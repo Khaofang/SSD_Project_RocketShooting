@@ -11,7 +11,7 @@ public class RocketBulletPool {
 	
 	private RocketBulletPool() {
 		bullets = new ArrayList<Bullet>();
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < 20; i++) {
 			Bullet b = new Bullet();
 			bullets.add(b);
 		}
@@ -28,15 +28,23 @@ public class RocketBulletPool {
 		return bullets;
 	}
 	
-	public void launch(int y) {
+	public void move() {
 		boolean launchNew = false;
 		for (int i = 0; i < bullets.size(); i++) {
 			Bullet b = bullets.get(i);
 			if (b.isActive()) {
-				b.shift(64);
+				b.shift(5);
 				if (b.isHit())
 					b.deactive();
-			} else if (!launchNew) {
+			}
+		}
+	}
+	
+	public void launch(int y) {
+		boolean launchNew = false;
+		for (int i = 0; i < bullets.size(); i++) {
+			Bullet b = bullets.get(i);
+			if (!b.isActive() && !launchNew) {
 				b.active(y + 28);
 				launchNew = true;
 			}

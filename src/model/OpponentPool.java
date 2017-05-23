@@ -11,12 +11,12 @@ public class OpponentPool {
 	
 	private OpponentPool() {
 		opponents = new ArrayList<Opponent>();
-		opponents.add(new Obstacle());
 		for (int i = 0; i < 3; i++)
 			opponents.add(new Enemy());
 		opponents.add(new Obstacle());
 		for (int i = 0; i < 3; i++)
 			opponents.add(new Enemy());
+		opponents.add(new Obstacle());
 	}
 	
 	public static OpponentPool getInstance() {
@@ -26,18 +26,30 @@ public class OpponentPool {
 		return instance;
 	}
 	
+	public void move() {
+		for (int i = 0; i < opponents.size(); i++) {
+			Opponent op = opponents.get(i);
+			if (op.isActive()) {
+				op.move();
+				if (!op.inMap())
+					op.deactive();
+			}
+		}
+	}
+	
 	public void launch() {
 		boolean addMore = false;
 		for (int i = 0; i < opponents.size(); i++) {
-			Opponent o = opponents.get(i);
-			if (o.isActive()) {
-				o.shift();
-				if (!o.inMap())
-					o.deactive();
-			} else if (!addMore) {
-				o.setStart();
+			Opponent op = opponents.get(i);
+			if (!op.isActive() && !addMore) {
+				op.active();
+				addMore = true;
 			}
 		}
+	}
+	
+	public List<Opponent> getOpponents() {
+		return opponents;
 	}
 	
 }

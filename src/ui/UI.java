@@ -18,18 +18,20 @@ import javax.swing.JPanel;
 
 import model.Bullet;
 import model.Game;
+import model.Opponent;
 
 public class UI extends JFrame implements KeyListener, Observer {
 	
 	private static ImageIcon II_BULLET_ROCKET = new ImageIcon("src/res/rocket_bullet.png");
 	private static ImageIcon II_ENEMY = new ImageIcon("src/res/enemy.png");
 	private static ImageIcon II_ROCKET = new ImageIcon("src/res/rocket.png");
-	private static ImageIcon II_OBSTACLE; // Not implements resource yet
+	private static ImageIcon II_OBSTACLE = new ImageIcon("src/res/obstacle.png"); // Not implements resource yet
 	private static int UI_WIDTH = 840;
 	private static int UI_HEIGHT = 480;
 	
 	private JPanel panel;
 	
+	private List<JLabel> lblOpponent;
 	private List<JLabel> lblRocketBullet;
 	private JLabel lblRocket;
 	private JLabel lblPressToStart;
@@ -48,14 +50,7 @@ public class UI extends JFrame implements KeyListener, Observer {
 		initComponent();
 		this.addKeyListener(this);
 		
-		lblRocketBullet = new ArrayList<JLabel>();
-		for (int i = 0; i < 15; i++) {
-			lblRocketBullet.add(new JLabel(II_BULLET_ROCKET));
-			panel.add(lblRocketBullet.get(i));
-			lblRocketBullet.get(i).setVisible(false);
-		}
-		
-		setTitle("Rocket Shooting v0.19");
+		setTitle("Rocket Shooting v0.21");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		pack();
@@ -66,6 +61,31 @@ public class UI extends JFrame implements KeyListener, Observer {
 	}
 	
 	public void initComponent() {
+		lblOpponent = new ArrayList<JLabel>();
+		for (int i = 0; i < 3; i++) {
+			lblOpponent.add(new JLabel(II_ENEMY));
+			panel.add(lblOpponent.get(i));
+			lblOpponent.get(i).setVisible(false);
+		}
+		lblOpponent.add(new JLabel(II_OBSTACLE));
+		panel.add(lblOpponent.get(3));
+		lblOpponent.get(3).setVisible(false);
+		for (int i = 4; i < 7; i++) {
+			lblOpponent.add(new JLabel(II_ENEMY));
+			panel.add(lblOpponent.get(i));
+			lblOpponent.get(i).setVisible(false);
+		}
+		lblOpponent.add(new JLabel(II_OBSTACLE));
+		panel.add(lblOpponent.get(7));
+		lblOpponent.get(7).setVisible(false);
+		
+		lblRocketBullet = new ArrayList<JLabel>();
+		for (int i = 0; i < 20; i++) {
+			lblRocketBullet.add(new JLabel(II_BULLET_ROCKET));
+			panel.add(lblRocketBullet.get(i));
+			lblRocketBullet.get(i).setVisible(false);
+		}
+		
 		lblRocket = new JLabel(II_ROCKET);
 		panel.add(lblRocket);
 		lblRocket.setBounds(16, 240, 64, 64);
@@ -87,13 +107,26 @@ public class UI extends JFrame implements KeyListener, Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < 20; i++) {
 			Bullet b = game.getRocket().getBulletPool().getBullets().get(i);
 			JLabel lbl = lblRocketBullet.get(i);
 			if (b.isActive()) {
 				lbl.setVisible(true);
 				int x = b.getX();
 				int y = b.getY();
+				lbl.setBounds(x, y, lbl.getPreferredSize().width,lbl.getPreferredSize().height);
+			} else {
+				lbl.setVisible(false);
+			}
+		}
+		
+		for (int i = 0; i < 8; i++) {
+			Opponent op = game.getOp().getOpponents().get(i);
+			JLabel lbl = lblOpponent.get(i);
+			if (op.isActive()) {
+				lbl.setVisible(true);
+				int x = op.getX();
+				int y = op.getY();
 				lbl.setBounds(x, y, lbl.getPreferredSize().width,lbl.getPreferredSize().height);
 			} else {
 				lbl.setVisible(false);
