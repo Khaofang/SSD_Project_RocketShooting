@@ -1,27 +1,49 @@
-<<<<<<< HEAD
 package model;
 
 public class Obstacle implements Opponent {
 
+	//private BulletPool bp;
+	private boolean active;
 	private int x;
 	private int y;
+	
+	public Obstacle() {
+		active = false;
+		x = 0;
+		y = 0;
+	}
+	
+	@Override
+	public void setStart() {
+		int i = (int) (Math.random() * 6);
+		x = 840;
+		y = 48 + (i * 64);
+		active = true;
+	}
+	
+	@Override
+	public boolean isActive() {
+		return active;
+	}
 	
 	@Override
 	public void interrupt() {
 	}
 
-}
-=======
-package model;
-
-public class Obstacle implements Opponent {
-
-	private int x;
-	private int y;
-	
 	@Override
-	public void interrupt() {
+	public boolean inMap() {
+		return x + 64 < 0 ;
+	}
+
+	@Override
+	public void shift() {
+		x -= 64;
+		
+	}
+
+	@Override
+	public void deactive() {
+		active = false;
 	}
 
 }
->>>>>>> 8de83d3f3c43aee1e6d2ab21d3586a2d2b1ab4bd
