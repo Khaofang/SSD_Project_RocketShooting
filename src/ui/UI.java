@@ -113,6 +113,13 @@ public class UI extends JFrame implements KeyListener, Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
+		long currTime = game.getTime();
+		int currSec = ((int) (currTime / 1000)) % 60;
+		int currMin = ((int) (currTime / 60000));
+		timeLabel.setText(String.format("Time: %02d:%02d", currMin, currSec));
+		timeLabel.setBounds(0, 0, timeLabel.getPreferredSize().width, timeLabel.getPreferredSize().height);
+
+
 		for (int i = 0; i < 20; i++) {
 			Bullet b = game.getRocket().getBulletPool().getBullets().get(i);
 			JLabel lbl = lblRocketBullet.get(i);

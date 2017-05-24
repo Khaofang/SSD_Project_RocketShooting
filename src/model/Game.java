@@ -10,6 +10,7 @@ public class Game extends Observable {
 	
 	private boolean playing;
 	private int score;
+	private long ms;
 	// TODO: implement other attributes later
 	
 	public Game() {
@@ -55,6 +56,7 @@ public class Game extends Observable {
 			@Override
 			public void run() {
 				int i = 0;
+				ms = 0;
 				while (isPlaying()) {
 					rocket.getBulletPool().move();
 					if (i % 10 == 2)
@@ -64,7 +66,8 @@ public class Game extends Observable {
 					if (i % 30 == 2) {
 						op.launch();
 					}
-					
+					ms += 40;
+
 					setChanged();
 					notifyObservers();
 					
@@ -81,6 +84,10 @@ public class Game extends Observable {
 			}
 		};
 		thread.start();
+	}
+
+	public long getTime() {
+		return ms;
 	}
 
 	
