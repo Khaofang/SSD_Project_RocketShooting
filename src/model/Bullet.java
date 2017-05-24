@@ -32,12 +32,12 @@ public class Bullet {
 		return active;
 	}
 	
-	public void shift(int dX) {
-		x += dX;
-	}
-	
 	public boolean isHit() {
 		return x >= 840;
+	}
+	
+	public void shift(int dX) {
+		x += dX;
 	}
 	
 }

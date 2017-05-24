@@ -22,7 +22,6 @@ public class OpponentPool {
 	public static OpponentPool getInstance() {
 		if (instance == null)
 			instance = new OpponentPool();
-		
 		return instance;
 	}
 	

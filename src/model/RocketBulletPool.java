@@ -20,7 +20,6 @@ public class RocketBulletPool {
 	public static RocketBulletPool getInstance() {
 		if (instance == null)
 			instance = new RocketBulletPool();
-		
 		return instance;
 	}
 	
@@ -49,7 +48,6 @@ public class RocketBulletPool {
 				launchNew = true;
 			}
 		}
-	
 	}
 	
 }

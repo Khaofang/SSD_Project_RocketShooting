@@ -6,6 +6,7 @@ public interface Opponent {
 	public int getY();
 	public void active();
 	public void deactive();
+	public void hide();
 	public boolean inMap();
 	public void interrupt();
 	public boolean isActive();

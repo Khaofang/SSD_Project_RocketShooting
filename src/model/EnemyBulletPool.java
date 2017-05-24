@@ -20,7 +20,6 @@ public class EnemyBulletPool {
     public static EnemyBulletPool getInstance() {
         if (instance == null)
             instance = new EnemyBulletPool();
-
         return instance;
     }
 }

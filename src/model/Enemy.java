@@ -16,6 +16,21 @@ public class Enemy implements Opponent {
 	}
 	
 	@Override
+	public int getX() {
+		return x;
+	}
+
+	@Override
+	public int getY() {
+		return y;
+	}
+	
+	@Override
+	public void hide() {
+		hided = true;
+	}
+	
+	@Override
 	public void active() {
 		int i = (int) (Math.random() * 6);
 		x = 840;
@@ -23,8 +38,19 @@ public class Enemy implements Opponent {
 		active = true;
 	}
 	
-	public void hide() {
-		hided = true;
+	@Override
+	public void deactive() {
+		active = false;
+	}
+	
+	@Override
+	public boolean inMap() {
+		return x + 64 >= 0 ;
+	}
+	
+	@Override
+	public void interrupt() {
+		// TODO: make enemy launch bullets later
 	}
 	
 	@Override
@@ -33,34 +59,8 @@ public class Enemy implements Opponent {
 	}
 
 	@Override
-	public void interrupt() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public boolean inMap() {
-		return x + 64 >= 0 ;
-	}
-
-	@Override
 	public void move() {
 		x -= 5;
-	}
-
-	@Override
-	public void deactive() {
-		active = false;
-		
-	}
-
-	@Override
-	public int getX() {
-		return x;
-	}
-
-	@Override
-	public int getY() {
-		return y;
 	}
 
 }

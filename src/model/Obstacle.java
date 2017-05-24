@@ -13,6 +13,16 @@ public class Obstacle implements Opponent {
 	}
 	
 	@Override
+	public int getX() {
+		return x;
+	}
+
+	@Override
+	public int getY() {
+		return y;
+	}
+	
+	@Override
 	public void active() {
 		int i = (int) (Math.random() * 6);
 		x = 840;
@@ -21,37 +31,31 @@ public class Obstacle implements Opponent {
 	}
 	
 	@Override
-	public boolean isActive() {
-		return active;
+	public void deactive() {
+		active = false;
+	}
+	
+	@Override
+	public void hide() {
+	}
+	
+	@Override
+	public boolean inMap() {
+		return x + 64 >= 0 ;
 	}
 	
 	@Override
 	public void interrupt() {
 	}
-
+	
 	@Override
-	public boolean inMap() {
-		return x + 64 >= 0 ;
+	public boolean isActive() {
+		return active;
 	}
 
 	@Override
 	public void move() {
 		x -= 5;
-	}
-
-	@Override
-	public void deactive() {
-		active = false;
-	}
-
-	@Override
-	public int getX() {
-		return x;
-	}
-
-	@Override
-	public int getY() {
-		return y;
 	}
 
 }
