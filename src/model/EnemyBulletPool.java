@@ -1,8 +1,11 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EnemyBulletPool {
 
-    private EnemyBulletPool instance;
+    private static EnemyBulletPool instance;
 
     private List<Bullet> bullets;
 
@@ -15,7 +18,7 @@ public class EnemyBulletPool {
     }
 
     public static EnemyBulletPool getInstance() {
-        if (instance == NULL)
+        if (instance == null)
             instance = new EnemyBulletPool();
 
         return instance;
