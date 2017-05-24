@@ -36,6 +36,7 @@ public class UI extends JFrame implements KeyListener, Observer {
 	private JLabel lblRocket;
 	private JLabel lblPressToStart;
 	private JLabel lblScore;
+	private  JLabel timeLabel;
 	
 	// TODO: Component
 	
@@ -94,13 +95,18 @@ public class UI extends JFrame implements KeyListener, Observer {
 		lblPressToStart = new JLabel("< SPACE TO START >");
 		lblPressToStart.setFont(new Font(lblPressToStart.getFont().toString(), Font.BOLD, 32));
 		panel.add(lblPressToStart);
-		lblPressToStart.setBounds(480, 240, lblPressToStart.getPreferredSize().width, lblPressToStart.getPreferredSize().height);
+		lblPressToStart.setBounds(450, 240, lblPressToStart.getPreferredSize().width, lblPressToStart.getPreferredSize().height);
 		
 		lblScore = new JLabel(String.format("%05d", game.getScore()));
 		lblScore.setFont(new Font(lblPressToStart.getFont().toString(), Font.BOLD, 32));
 		panel.add(lblScore);
-		lblScore.setBounds(740, 0, lblScore.getPreferredSize().width, lblScore.getPreferredSize().height);
-		
+		lblScore.setBounds(720, 0, lblScore.getPreferredSize().width, lblScore.getPreferredSize().height);
+
+
+		timeLabel = new JLabel("Time: 00.00");
+		timeLabel.setFont(new Font(lblPressToStart.getFont().toString(), Font.BOLD, 32));
+		panel.add(timeLabel);
+		timeLabel.setBounds(0, 0, timeLabel.getPreferredSize().width, timeLabel.getPreferredSize().height);
 		// TODO: implement more components
 		
 	}
