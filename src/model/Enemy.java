@@ -10,7 +10,7 @@ public class Enemy implements Opponent {
 	
 	public Enemy() {
 		active = false;
-		hided = true;
+		hided = false;
 		x = 0;
 		y = 0;
 	}
@@ -41,6 +41,7 @@ public class Enemy implements Opponent {
 	@Override
 	public void deactive() {
 		active = false;
+		hided = false;
 	}
 	
 	@Override
@@ -56,6 +57,11 @@ public class Enemy implements Opponent {
 	@Override
 	public boolean isActive() {
 		return active;
+	}
+	
+	@Override
+	public boolean isHided() {
+		return hided;
 	}
 
 	@Override

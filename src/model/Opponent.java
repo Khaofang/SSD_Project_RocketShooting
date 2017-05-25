@@ -10,6 +10,7 @@ public interface Opponent {
 	public boolean inMap();
 	public void interrupt();
 	public boolean isActive();
+	public boolean isHided();
 	public void move();
 	
 }

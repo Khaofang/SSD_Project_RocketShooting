@@ -35,13 +35,40 @@ public class Game extends Observable {
 	public long getTime() {
 		return time;
 	}
-	
+
 	public void end() {
 		playing = false;
 	}
 
+	public void hitOpponent() {
+		List<Bullet> bullets = rocket.getBulletPool().getBullets();
+		List<Opponent> opponents = op.getOpponents();
+
+		for (Opponent o : opponents) {
+			if (o.isActive() && !o.isHided()) {
+				for (Bullet b : bullets) {
+					if (o.getX() - b.getX() < 32 && b.getY() - o.getY() == 28) {
+						System.out.println("HIT!");
+						o.hide();
+						b.deactive();
+						//score += 10;
+					}
+				}
+			}
+		}
+	}
+
 	public boolean isPlaying() {
 		return playing;
+	}
+
+	public boolean isRocketHitOpponent() {
+		for (Opponent o : op.getOpponents()) {
+			if (o.isActive() && !o.isHided() && Math.abs(rocket.getX() - o.getX()) < 64 && rocket.getY() == o.getY())
+				return true;
+		}
+
+		return false;
 	}
 
 	public boolean moveRocketDown(int rocketSize, int upperBound) {
@@ -60,15 +87,6 @@ public class Game extends Observable {
 		return true;
 	}
 
-	public boolean isRocketHitOpponent() {
-		for(Opponent opList: op.getOpponents()) {
-			if( Math.abs(rocket.getX() - opList.getX()) < 64 && rocket.getY() == opList.getY() )
-				return true;
-		}
-
-		return false;
-	}
-
 	public void startGame() {
 		playing = true;
 		Thread thread = new Thread() {
@@ -84,19 +102,21 @@ public class Game extends Observable {
 					if (i % 30 == 3)
 						op.launch();
 					time += 40;
-					
+
 					if (isRocketHitOpponent()) {
 						end();
 						JOptionPane.showMessageDialog(null, "Game Over!");
 						break;
 					}
 
+					hitOpponent();
+
 					// TODO: other tasks later
 
 					i++;
 					setChanged();
 					notifyObservers();
-					
+
 					try {
 						Thread.sleep(40);
 					} catch (Exception e) {

@@ -3,11 +3,13 @@ package model;
 public class Obstacle implements Opponent {
 
 	private boolean active;
+	private boolean hided;
 	private int x;
 	private int y;
 	
 	public Obstacle() {
 		active = false;
+		hided = false;
 		x = 0;
 		y = 0;
 	}
@@ -51,6 +53,11 @@ public class Obstacle implements Opponent {
 	@Override
 	public boolean isActive() {
 		return active;
+	}
+	
+	@Override
+	public boolean isHided() {
+		return false;
 	}
 
 	@Override

@@ -54,7 +54,7 @@ public class UI extends JFrame implements KeyListener, Observer {
 		initComponent();
 		this.addKeyListener(this);
 
-		setTitle("Rocket Shooting v0.26");
+		setTitle("Rocket Shooting v0.31");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		pack();
@@ -122,6 +122,9 @@ public class UI extends JFrame implements KeyListener, Observer {
 		int currMin = ((int) (currTime / 60000));
 		lblTime.setText(String.format("Time: %02d:%02d", currMin, currSec));
 		lblTime.setBounds(0, 0, lblTime.getPreferredSize().width, lblTime.getPreferredSize().height);
+		
+		lblScore.setText(String.format("%05d", game.getScore()));
+		//lblScore.setBounds(720, 0, lblScore.getPreferredSize().width, lblScore.getPreferredSize().height);
 
 		for (int i = 0; i < 20; i++) {
 			Bullet b = game.getRocket().getBulletPool().getBullets().get(i);
@@ -139,7 +142,7 @@ public class UI extends JFrame implements KeyListener, Observer {
 		for (int i = 0; i < 8; i++) {
 			Opponent op = game.getOp().getOpponents().get(i);
 			JLabel lbl = lblOpponent.get(i);
-			if (op.isActive()) {
+			if (op.isActive() && !op.isHided()) {
 				lbl.setVisible(true);
 				int x = op.getX();
 				int y = op.getY();
