@@ -61,22 +61,9 @@ public class Game extends Observable {
 	}
 
 	public boolean isRocketHitOpponent() {
-
-		/*	Add getX for rocket to find x position of rocket in x line
-		 *  and using x line to check if the rocket is hitting the opponent
-		 *  as the x position of x is equal 0, maybe we can delete getX() from rocket method
-		 *  and use opList.getX() <= 60, and getY() as this game is fix position of y on each position
-		 *  just check if they are in the same y position and check x position instead.
-		 *  
-		 * 	#BUG# if the rocket suddenly move behind the opponent instantly there are a bit of a chance
-		 * 			that the game will game over even they are not collide or hitting each other.
-		 * 			the procedure of fixing bug will leave it to you guys, Chayanin or Nuttapong.
-		 */
-		
 		for(Opponent opList: op.getOpponents()) {
-			if( opList.getX() - rocket.getX() < 60 && rocket.getY() == opList.getY() ) {
+			if( Math.abs(rocket.getX() - opList.getX()) < 64 && rocket.getY() == opList.getY() )
 				return true;
-			}
 		}
 
 		return false;
@@ -91,24 +78,24 @@ public class Game extends Observable {
 				time = 0;
 				while (isPlaying()) {
 					rocket.getBulletPool().move();
-					if (i % 10 == 2)
+					if (i % 10 == 3)
 						rocket.shoot();
 					op.move();
-					if (i % 30 == 2)
+					if (i % 30 == 3)
 						op.launch();
 					time += 40;
-
-					// TODO: other tasks later
-
-					i++;
-					setChanged();
-					notifyObservers();
 					
 					if (isRocketHitOpponent()) {
 						end();
 						JOptionPane.showMessageDialog(null, "Game Over!");
 						break;
 					}
+
+					// TODO: other tasks later
+
+					i++;
+					setChanged();
+					notifyObservers();
 					
 					try {
 						Thread.sleep(40);
