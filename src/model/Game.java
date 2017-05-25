@@ -38,24 +38,6 @@ public class Game extends Observable {
 		playing = false;
 	}
 
-	public void hitOpponent() {
-		List<Bullet> bullets = rocket.getBulletPool().getBullets();
-		List<Opponent> opponents = op.getOpponents();
-
-		for (Opponent o : opponents) {
-			if (o.isActive() && !o.isHided()) {
-				for (Bullet b : bullets) {
-					if (b.isActive() && o.getX() - b.getX() < 32 && b.getY() - o.getY() == 28) {
-						o.hide();
-						b.deactive();
-						if (!o.isObstacle())
-							score += 10;
-					}
-				}
-			}
-		}
-	}
-
 	public boolean isPlaying() {
 		return playing;
 	}
@@ -66,6 +48,22 @@ public class Game extends Observable {
 				return true;
 		}
 
+		return false;
+	}
+	
+	public boolean isRocketHitEnemyBullet() {
+		EnemyBulletPool[] ebp = EnemyBulletPool.getInstance();
+		int rX = rocket.getX();
+		int rY = rocket.getY();
+		for (int i = 0; i < ebp.length; i++) {
+			
+			// TODO: check
+			// for each bullets in each EBPs check each bullets collide rocket or not.
+			// if there collision, return true
+			
+		
+		}
+		
 		return false;
 	}
 
@@ -83,6 +81,24 @@ public class Game extends Observable {
 
 		rocket.move((-1) * rocketSize);
 		return true;
+	}
+	
+	public void rocketHitOpponent() {
+		List<Bullet> bullets = rocket.getBulletPool().getBullets();
+		List<Opponent> opponents = op.getOpponents();
+
+		for (Opponent o : opponents) {
+			if (o.isActive() && !o.isHided()) {
+				for (Bullet b : bullets) {
+					if (b.isActive() && o.getX() - b.getX() < 32 && b.getY() - o.getY() == 28) {
+						o.hide();
+						b.deactive();
+						if (!o.isObstacle())
+							score += 10;
+					}
+				}
+			}
+		}
 	}
 
 	public void startGame() {
@@ -102,7 +118,7 @@ public class Game extends Observable {
 					if (i % 20 == 3)
 						op.allShoot();
 					op.moveBullet();
-					hitOpponent();
+					rocketHitOpponent();
 					time += 40;
 
 					// TODO: other tasks later
