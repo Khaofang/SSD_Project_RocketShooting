@@ -9,13 +9,18 @@ public class Game extends Observable {
 
 	private OpponentPool op;
 	private Rocket rocket;
+	private boolean over;
 	private boolean playing;
+	private int highScore;
 	private int score;
 	private long time;
 
 	public Game() {
 		rocket = Rocket.getInstance();
 		op = OpponentPool.getInstance();
+		over = false;
+		playing = false;
+		highScore = 0;
 	}
 
 	public OpponentPool getOp() {
@@ -24,6 +29,10 @@ public class Game extends Observable {
 
 	public Rocket getRocket() {
 		return rocket;
+	}
+	
+	public int getHighScore() {
+		return highScore;
 	}
 
 	public int getScore() {
@@ -35,7 +44,15 @@ public class Game extends Observable {
 	}
 
 	public void end() {
+		over = true;
 		playing = false;
+		
+		if (score > highScore)
+			highScore = score;
+	}
+	
+	public boolean isOver() {
+		return over;
 	}
 
 	public boolean isPlaying() {
@@ -50,32 +67,18 @@ public class Game extends Observable {
 
 		return false;
 	}
-	
+
 	public boolean isRocketHitEnemyBullet() {
-		
-		/*
-		 *	Done Checking if the Rocket is got hit by an enemy bullet.
-		 *
-		 *  #BUG#
-		 *  If they are too many enemy visible and you got hit by the last enemy
-		 * 	they are slightly chances of that the rocket will survive from getting shot.
-		 * 
-		 */
-		
 		EnemyBulletPool[] ebp = EnemyBulletPool.getInstance();
 		int rX = rocket.getX();
 		int rY = rocket.getY();
 		for (int i = 0; i < ebp.length; i++) {
-
-			for(Bullet enemyBullet : ebp[i].getBullets()){
-				if( Math.abs( enemyBullet.getX() - rX ) < 60 && Math.abs( enemyBullet.getY() - rY ) < 30 ){
+			for (Bullet eb : ebp[i].getBullets()) {
+				if (eb.isActive() && Math.abs(eb.getX() - rX) <= 60 && eb.getY() - rY == 16)
 					return true;
-				}
-				
 			}
-		
 		}
-		
+
 		return false;
 	}
 
@@ -95,6 +98,18 @@ public class Game extends Observable {
 		return true;
 	}
 	
+	public void reset() {
+		over = false;
+		playing = true;
+		
+		op.reset();
+		rocket.reset();
+		EnemyBulletPool[] ebp = EnemyBulletPool.getInstance();
+		for (int i = 0; i < ebp.length; i++)
+			ebp[i].reset();
+		rocket.getBulletPool().reset();
+	}
+
 	public void rocketBulletHitOpponent() {
 		List<Bullet> bullets = rocket.getBulletPool().getBullets();
 		List<Opponent> opponents = op.getOpponents();
@@ -120,7 +135,7 @@ public class Game extends Observable {
 			public void run() {
 				long i = 0;
 				time = 0;
-				while (isPlaying()) {
+				while (!over) {
 					rocket.getBulletPool().move();
 					if (i % 10 == 3)
 						rocket.shoot();
@@ -138,16 +153,16 @@ public class Game extends Observable {
 					i++;
 					setChanged();
 					notifyObservers();
-
+					
 					if (isRocketHitOpponent()) {
 						end();
-						JOptionPane.showMessageDialog(null, "Game Over!");
+						setChanged();
+						notifyObservers();
 						break;
-					}
-					
-					if (isRocketHitEnemyBullet()) {
+					} else if (isRocketHitEnemyBullet()) {
 						end();
-						JOptionPane.showMessageDialog(null, "Game Over!");
+						setChanged();
+						notifyObservers();
 						break;
 					}
 

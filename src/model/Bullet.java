@@ -8,6 +8,8 @@ public class Bullet {
 
 	public Bullet() {
 		active = false;
+		x = 1000;
+		y = 1000;
 	}
 
 	public int getX() {
@@ -30,6 +32,8 @@ public class Bullet {
 
 	public void deactive() {
 		active = false;
+		x = 1000;
+		y = 1000;
 	}
 
 	public boolean isActive() {
@@ -37,7 +41,7 @@ public class Bullet {
 	}
 
 	public boolean inMap() {
-		return x >= 840 || x <= 0;
+		return x < 840 && x >= 0;
 	}
 
 	public void shift(int dX) {

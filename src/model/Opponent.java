@@ -10,8 +10,8 @@ public abstract class Opponent {
 	protected Opponent() {
 		active = false;
 		hided = false;
-		x = 0;
-		y = 0;
+		x = 1000;
+		y = 1000;
 	}
 	
 	public abstract void hide();
@@ -37,6 +37,8 @@ public abstract class Opponent {
 	public final void deactive() {
 		active = false;
 		hided = false;
+		x = 1000;
+		y = 1000;
 	}
 	
 	public final boolean inMap() {

@@ -29,6 +29,10 @@ public class OpponentPool {
 			instance = new OpponentPool();
 		return instance;
 	}
+	
+	public List<Opponent> getOpponents() {
+		return opponents;
+	}
 
 	public void allShoot() {
 		for (int i = 0; i < opponents.size(); i++) {
@@ -65,14 +69,16 @@ public class OpponentPool {
 			Opponent op = opponents.get(i);
 			if (!op.isActive()) {
 				op.active();
-				System.out.println("Launch new opponent.");
 				break;
 			}
 		}
 	}
-
-	public List<Opponent> getOpponents() {
-		return opponents;
+	
+	public void reset() {
+		for (int i = 0; i < opponents.size(); i++) {
+			Opponent op = opponents.get(i);
+			op.deactive();
+		}
 	}
 
 }

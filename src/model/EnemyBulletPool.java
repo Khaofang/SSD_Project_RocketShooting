@@ -33,7 +33,7 @@ public class EnemyBulletPool {
 		for (int i = 0; i < bullets.size(); i++) {
 			Bullet b = bullets.get(i);
 			if (!b.isActive()) {
-				b.active(y + 20);
+				b.active(y + 16);
 				b.setX(x);
 				break;
 			}
@@ -45,9 +45,16 @@ public class EnemyBulletPool {
 			Bullet b = bullets.get(i);
 			if (b.isActive()) {
 				b.shift(-10);
-				if (b.inMap())
+				if (!b.inMap())
 					b.deactive();
 			}
+		}
+	}
+	
+	public void reset() {
+		for (int i = 0; i < bullets.size(); i++) {
+			Bullet b = bullets.get(i);
+			b.deactive();
 		}
 	}
 

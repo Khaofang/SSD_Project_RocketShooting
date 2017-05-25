@@ -46,5 +46,9 @@ public class Rocket {
 	public void shoot() {
 		bulletpool.launch(y);
 	}
+	
+	public void reset() {
+		y = 240;
+	}
 
 }

@@ -42,9 +42,16 @@ public class RocketBulletPool {
 			Bullet b = bullets.get(i);
 			if (b.isActive()) {
 				b.shift(5);
-				if (b.inMap())
+				if (!b.inMap())
 					b.deactive();
 			}
+		}
+	}
+	
+	public void reset() {
+		for (int i = 0; i < bullets.size(); i++) {
+			Bullet b = bullets.get(i);
+			b.deactive();
 		}
 	}
 
