@@ -51,7 +51,8 @@ public class Game extends Observable {
 						System.out.println("HIT!");
 						o.hide();
 						b.deactive();
-						//score += 10;
+						if (o instanceof Enemy)
+						score += 10;
 					}
 				}
 			}
