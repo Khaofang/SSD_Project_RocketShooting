@@ -45,7 +45,7 @@ public class EnemyBulletPool {
 			Bullet b = bullets.get(i);
 			if (b.isActive()) {
 				b.shift(-10);
-				if (b.isHit())
+				if (b.inMap())
 					b.deactive();
 			}
 		}

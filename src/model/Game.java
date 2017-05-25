@@ -52,15 +52,27 @@ public class Game extends Observable {
 	}
 	
 	public boolean isRocketHitEnemyBullet() {
+		
+		/*
+		 *	Done Checking if the Rocket is got hit by an enemy bullet.
+		 *
+		 *  #BUG#
+		 *  If they are too many enemy visible and you got hit by the last enemy
+		 * 	they are slightly chances of that the rocket will survive from getting shot.
+		 * 
+		 */
+		
 		EnemyBulletPool[] ebp = EnemyBulletPool.getInstance();
 		int rX = rocket.getX();
 		int rY = rocket.getY();
 		for (int i = 0; i < ebp.length; i++) {
-			
-			// TODO: check
-			// for each bullets in each EBPs check each bullets collide rocket or not.
-			// if there collision, return true
-			
+
+			for(Bullet enemyBullet : ebp[i].getBullets()){
+				if( Math.abs( enemyBullet.getX() - rX ) < 60 && Math.abs( enemyBullet.getY() - rY ) < 30 ){
+					return true;
+				}
+				
+			}
 		
 		}
 		
@@ -83,7 +95,7 @@ public class Game extends Observable {
 		return true;
 	}
 	
-	public void rocketHitOpponent() {
+	public void rocketBulletHitOpponent() {
 		List<Bullet> bullets = rocket.getBulletPool().getBullets();
 		List<Opponent> opponents = op.getOpponents();
 
@@ -118,7 +130,7 @@ public class Game extends Observable {
 					if (i % 20 == 3)
 						op.allShoot();
 					op.moveBullet();
-					rocketHitOpponent();
+					rocketBulletHitOpponent();
 					time += 40;
 
 					// TODO: other tasks later
@@ -128,6 +140,12 @@ public class Game extends Observable {
 					notifyObservers();
 
 					if (isRocketHitOpponent()) {
+						end();
+						JOptionPane.showMessageDialog(null, "Game Over!");
+						break;
+					}
+					
+					if (isRocketHitEnemyBullet()) {
 						end();
 						JOptionPane.showMessageDialog(null, "Game Over!");
 						break;

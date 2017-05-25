@@ -36,7 +36,7 @@ public class Bullet {
 		return active;
 	}
 
-	public boolean isHit() {
+	public boolean inMap() {
 		return x >= 840 || x <= 0;
 	}
 
