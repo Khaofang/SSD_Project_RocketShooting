@@ -8,6 +8,7 @@ public class Rocket {
 	
 	private RocketBulletPool bp;
 	private int y;
+	private int x;
 	
 	private Rocket() {
 		bp = RocketBulletPool.getInstance();
@@ -28,6 +29,10 @@ public class Rocket {
 	
 	public int getY() {
 		return y;
+	}
+	
+	public int getX() {
+		return x;
 	}
 	
 	public void setY(int y) {
