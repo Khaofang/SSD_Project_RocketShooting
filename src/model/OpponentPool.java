@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OpponentPool {
-	
+
 	private static OpponentPool instance = null;
 
 	private List<Opponent> opponents;
-	
+
 	private OpponentPool() {
 		int ei = 0;
 		opponents = new ArrayList<Opponent>();
@@ -23,22 +23,23 @@ public class OpponentPool {
 		}
 		opponents.add(new Obstacle());
 	}
-	
+
 	public static OpponentPool getInstance() {
 		if (instance == null)
 			instance = new OpponentPool();
 		return instance;
 	}
-	
+
 	public void allShoot() {
 		for (int i = 0; i < opponents.size(); i++) {
 			Opponent op = opponents.get(i);
-			if (!op.isObstacle()) {
+			if (!op.isObstacle() && op.isActive() && !op.isHided()) {
 				op.interrupt();
 			}
+			op.move();
 		}
 	}
-	
+
 	public void move() {
 		for (int i = 0; i < opponents.size(); i++) {
 			Opponent op = opponents.get(i);
@@ -50,6 +51,15 @@ public class OpponentPool {
 		}
 	}
 	
+	public void moveBullet() {
+		for (int i = 0; i < opponents.size(); i++) {
+			Opponent op = opponents.get(i);
+			if (!op.isObstacle() && op.isActive()) {
+				((Enemy) op).getBulletPool().move();
+			}
+		}
+	}
+
 	public void launch() {
 		for (int i = 0; i < opponents.size(); i++) {
 			Opponent op = opponents.get(i);
@@ -60,9 +70,9 @@ public class OpponentPool {
 			}
 		}
 	}
-	
+
 	public List<Opponent> getOpponents() {
 		return opponents;
 	}
-	
+
 }

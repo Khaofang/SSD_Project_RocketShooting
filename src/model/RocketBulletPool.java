@@ -6,9 +6,9 @@ import java.util.List;
 public class RocketBulletPool {
 
 	private static RocketBulletPool instance = null;
-	
+
 	private List<Bullet> bullets;
-	
+
 	private RocketBulletPool() {
 		bullets = new ArrayList<Bullet>();
 		for (int i = 0; i < 20; i++) {
@@ -16,17 +16,17 @@ public class RocketBulletPool {
 			bullets.add(b);
 		}
 	}
-	
+
 	public static RocketBulletPool getInstance() {
 		if (instance == null)
 			instance = new RocketBulletPool();
 		return instance;
 	}
-	
+
 	public List<Bullet> getBullets() {
 		return bullets;
 	}
-	
+
 	public void launch(int y) {
 		for (int i = 0; i < bullets.size(); i++) {
 			Bullet b = bullets.get(i);
@@ -36,7 +36,7 @@ public class RocketBulletPool {
 			}
 		}
 	}
-	
+
 	public void move() {
 		for (int i = 0; i < bullets.size(); i++) {
 			Bullet b = bullets.get(i);
@@ -47,5 +47,5 @@ public class RocketBulletPool {
 			}
 		}
 	}
-	
+
 }

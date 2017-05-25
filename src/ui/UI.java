@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.Bullet;
+import model.Enemy;
 import model.Game;
 import model.Opponent;
 
@@ -70,7 +71,7 @@ public class UI extends JFrame implements KeyListener, Observer {
 			panel.add(lblEnemyBullet.get(i));
 			lblEnemyBullet.get(i).setVisible(false);
 		}
-		
+
 		lblOpponent = new ArrayList<JLabel>();
 		for (int i = 0; i < 3; i++) {
 			lblOpponent.add(new JLabel(II_ENEMY));
@@ -116,9 +117,6 @@ public class UI extends JFrame implements KeyListener, Observer {
 		lblTime.setFont(new Font(lblPressToStart.getFont().toString(), Font.BOLD, 32));
 		panel.add(lblTime);
 		lblTime.setBounds(0, 0, lblTime.getPreferredSize().width, lblTime.getPreferredSize().height);
-
-		// TODO: implement more components
-
 	}
 
 	@Override
@@ -128,7 +126,7 @@ public class UI extends JFrame implements KeyListener, Observer {
 		int currMin = ((int) (currTime / 60000));
 		lblTime.setText(String.format("Time: %02d:%02d", currMin, currSec));
 		lblTime.setBounds(0, 0, lblTime.getPreferredSize().width, lblTime.getPreferredSize().height);
-		
+
 		lblScore.setText(String.format("%05d", game.getScore()));
 		lblScore.setBounds(720, 0, lblScore.getPreferredSize().width, lblScore.getPreferredSize().height);
 
@@ -157,7 +155,26 @@ public class UI extends JFrame implements KeyListener, Observer {
 				lbl.setVisible(false);
 			}
 		}
-		
+
+		for (int i = 0; i < 8; i++) {
+			Opponent op = game.getOp().getOpponents().get(i);
+			if (!op.isObstacle()) {
+				Enemy e = (Enemy) op;
+				int ebpi = e.getBulletPoolIndex();
+				for (int j = 0; j < 20; j++) {
+					JLabel lbl = lblEnemyBullet.get(j + (20 * ebpi));
+					Bullet b = e.getBulletPool().getBullets().get(j);
+					if (b.isActive()) {
+						lbl.setVisible(true);
+						int x = b.getX();
+						int y = b.getY();
+						lbl.setBounds(x, y, lbl.getPreferredSize().width, lbl.getPreferredSize().height);
+					} else {
+						lbl.setVisible(false);
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -166,11 +183,8 @@ public class UI extends JFrame implements KeyListener, Observer {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("Key is typing : " + e.getKeyCode());
-
-		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+		if (e.getKeyCode() == KeyEvent.VK_SPACE)
 			lblPressToStart.setVisible(false);
-		}
 
 		if (game.isPlaying()) {
 			if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
@@ -183,9 +197,8 @@ public class UI extends JFrame implements KeyListener, Observer {
 				lblRocket.setBounds(16, y, 64, 64);
 			}
 		} else {
-			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			if (e.getKeyCode() == KeyEvent.VK_SPACE)
 				game.startGame();
-			}
 		}
 	}
 

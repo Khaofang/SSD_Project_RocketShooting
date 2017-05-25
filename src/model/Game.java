@@ -13,8 +13,6 @@ public class Game extends Observable {
 	private int score;
 	private long time;
 
-	// TODO: implement other attributes later
-
 	public Game() {
 		rocket = Rocket.getInstance();
 		op = OpponentPool.getInstance();
@@ -48,7 +46,6 @@ public class Game extends Observable {
 			if (o.isActive() && !o.isHided()) {
 				for (Bullet b : bullets) {
 					if (b.isActive() && o.getX() - b.getX() < 32 && b.getY() - o.getY() == 28) {
-						System.out.println("HIT!");
 						o.hide();
 						b.deactive();
 						if (!o.isObstacle())
@@ -102,15 +99,18 @@ public class Game extends Observable {
 					op.move();
 					if (i % 35 == 3)
 						op.launch();
-					time += 40;
+					if (i % 20 == 3)
+						op.allShoot();
+					op.moveBullet();
 					hitOpponent();
+					time += 40;
 
 					// TODO: other tasks later
 
 					i++;
 					setChanged();
 					notifyObservers();
-					
+
 					if (isRocketHitOpponent()) {
 						end();
 						JOptionPane.showMessageDialog(null, "Game Over!");
