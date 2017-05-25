@@ -54,7 +54,7 @@ public class UI extends JFrame implements KeyListener, Observer {
 		initComponent();
 		this.addKeyListener(this);
 
-		setTitle("Rocket Shooting v0.33");
+		setTitle("Rocket Shooting v0.35");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		pack();

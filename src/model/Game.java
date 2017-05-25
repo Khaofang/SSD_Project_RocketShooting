@@ -62,7 +62,7 @@ public class Game extends Observable {
 
 	public boolean isRocketHitOpponent() {
 		for (Opponent o : op.getOpponents()) {
-			if (o.isActive() && !o.isHided() && Math.abs(rocket.getX() - o.getX()) < 64 && rocket.getY() == o.getY())
+			if (o.isActive() && !o.isHided() && Math.abs(o.getX() - rocket.getX()) < 60 && rocket.getY() == o.getY())
 				return true;
 		}
 
