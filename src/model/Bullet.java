@@ -14,6 +14,10 @@ public class Bullet {
 		return x;
 	}
 	
+	public void setX(int x) {
+		this.x = x;
+	}
+	
 	public int getY() {
 		return y;
 	}
@@ -33,7 +37,7 @@ public class Bullet {
 	}
 	
 	public boolean isHit() {
-		return x >= 840;
+		return x >= 840 || x <= 0;
 	}
 	
 	public void shift(int dX) {

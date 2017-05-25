@@ -47,12 +47,12 @@ public class Game extends Observable {
 		for (Opponent o : opponents) {
 			if (o.isActive() && !o.isHided()) {
 				for (Bullet b : bullets) {
-					if (o.getX() - b.getX() < 32 && b.getY() - o.getY() == 28) {
+					if (b.isActive() && o.getX() - b.getX() < 32 && b.getY() - o.getY() == 28) {
 						System.out.println("HIT!");
 						o.hide();
 						b.deactive();
-						if (o instanceof Enemy)
-						score += 10;
+						if (!o.isObstacle())
+							score += 10;
 					}
 				}
 			}
@@ -100,16 +100,9 @@ public class Game extends Observable {
 					if (i % 10 == 3)
 						rocket.shoot();
 					op.move();
-					if (i % 30 == 3)
+					if (i % 35 == 3)
 						op.launch();
 					time += 40;
-
-					if (isRocketHitOpponent()) {
-						end();
-						JOptionPane.showMessageDialog(null, "Game Over!");
-						break;
-					}
-
 					hitOpponent();
 
 					// TODO: other tasks later
@@ -117,6 +110,12 @@ public class Game extends Observable {
 					i++;
 					setChanged();
 					notifyObservers();
+					
+					if (isRocketHitOpponent()) {
+						end();
+						JOptionPane.showMessageDialog(null, "Game Over!");
+						break;
+					}
 
 					try {
 						Thread.sleep(40);

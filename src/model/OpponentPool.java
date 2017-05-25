@@ -10,12 +10,17 @@ public class OpponentPool {
 	private List<Opponent> opponents;
 	
 	private OpponentPool() {
+		int ei = 0;
 		opponents = new ArrayList<Opponent>();
-		for (int i = 0; i < 3; i++)
-			opponents.add(new Enemy());
+		for (int i = 0; i < 3; i++) {
+			opponents.add(new Enemy(ei));
+			ei++;
+		}
 		opponents.add(new Obstacle());
-		for (int i = 0; i < 3; i++)
-			opponents.add(new Enemy());
+		for (int i = 0; i < 3; i++) {
+			opponents.add(new Enemy(ei));
+			ei++;
+		}
 		opponents.add(new Obstacle());
 	}
 	
@@ -23,6 +28,15 @@ public class OpponentPool {
 		if (instance == null)
 			instance = new OpponentPool();
 		return instance;
+	}
+	
+	public void allShoot() {
+		for (int i = 0; i < opponents.size(); i++) {
+			Opponent op = opponents.get(i);
+			if (!op.isObstacle()) {
+				op.interrupt();
+			}
+		}
 	}
 	
 	public void move() {
@@ -37,12 +51,12 @@ public class OpponentPool {
 	}
 	
 	public void launch() {
-		boolean addMore = false;
 		for (int i = 0; i < opponents.size(); i++) {
 			Opponent op = opponents.get(i);
-			if (!op.isActive() && !addMore) {
+			if (!op.isActive()) {
 				op.active();
-				addMore = true;
+				System.out.println("Launch new opponent.");
+				break;
 			}
 		}
 	}

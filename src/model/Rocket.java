@@ -6,12 +6,12 @@ public class Rocket {
 
 	private static Rocket instance;
 	
-	private RocketBulletPool bp;
+	private RocketBulletPool bulletpool;
 	private int y;
 	private int x;
 	
 	private Rocket() {
-		bp = RocketBulletPool.getInstance();
+		bulletpool = RocketBulletPool.getInstance();
 		y = 0;
 	}
 	
@@ -24,7 +24,7 @@ public class Rocket {
 	}
 	
 	public RocketBulletPool getBulletPool() {
-		return bp;
+		return bulletpool;
 	}
 	
 	public int getY() {
@@ -44,7 +44,7 @@ public class Rocket {
 	}
 	
 	public void shoot() {
-		bp.launch(y);
+		bulletpool.launch(y);
 	}
 	
 }

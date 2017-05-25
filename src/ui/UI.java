@@ -22,18 +22,17 @@ import model.Opponent;
 
 public class UI extends JFrame implements KeyListener, Observer {
 
+	private static ImageIcon II_BULLET_ENEMY = new ImageIcon("src/res/enemy_bullet.png");
 	private static ImageIcon II_BULLET_ROCKET = new ImageIcon("src/res/rocket_bullet.png");
 	private static ImageIcon II_ENEMY = new ImageIcon("src/res/enemy.png");
 	private static ImageIcon II_ROCKET = new ImageIcon("src/res/rocket.png");
-	private static ImageIcon II_OBSTACLE = new ImageIcon("src/res/obstacle.png"); // Not
-																					// implements
-																					// resource
-																					// yet
+	private static ImageIcon II_OBSTACLE = new ImageIcon("src/res/obstacle.png");
 	private static int UI_WIDTH = 840;
 	private static int UI_HEIGHT = 480;
 
 	private JPanel panel;
 
+	private List<JLabel> lblEnemyBullet;
 	private List<JLabel> lblOpponent;
 	private List<JLabel> lblRocketBullet;
 	private JLabel lblPressToStart;
@@ -54,7 +53,7 @@ public class UI extends JFrame implements KeyListener, Observer {
 		initComponent();
 		this.addKeyListener(this);
 
-		setTitle("Rocket Shooting v0.31");
+		setTitle("Rocket Shooting v0.33");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		pack();
@@ -65,6 +64,13 @@ public class UI extends JFrame implements KeyListener, Observer {
 	}
 
 	public void initComponent() {
+		lblEnemyBullet = new ArrayList<JLabel>();
+		for (int i = 0; i < 120; i++) {
+			lblEnemyBullet.add(new JLabel(II_BULLET_ENEMY));
+			panel.add(lblEnemyBullet.get(i));
+			lblEnemyBullet.get(i).setVisible(false);
+		}
+		
 		lblOpponent = new ArrayList<JLabel>();
 		for (int i = 0; i < 3; i++) {
 			lblOpponent.add(new JLabel(II_ENEMY));
@@ -90,7 +96,7 @@ public class UI extends JFrame implements KeyListener, Observer {
 			lblRocketBullet.get(i).setVisible(false);
 		}
 
-		lblPressToStart = new JLabel("< SPACE TO START >");
+		lblPressToStart = new JLabel(" < SPACE TO START > ");
 		lblPressToStart.setFont(new Font(lblPressToStart.getFont().toString(), Font.BOLD, 32));
 		panel.add(lblPressToStart);
 		lblPressToStart.setBounds(450, 240, lblPressToStart.getPreferredSize().width,
@@ -124,7 +130,7 @@ public class UI extends JFrame implements KeyListener, Observer {
 		lblTime.setBounds(0, 0, lblTime.getPreferredSize().width, lblTime.getPreferredSize().height);
 		
 		lblScore.setText(String.format("%05d", game.getScore()));
-		//lblScore.setBounds(720, 0, lblScore.getPreferredSize().width, lblScore.getPreferredSize().height);
+		lblScore.setBounds(720, 0, lblScore.getPreferredSize().width, lblScore.getPreferredSize().height);
 
 		for (int i = 0; i < 20; i++) {
 			Bullet b = game.getRocket().getBulletPool().getBullets().get(i);
@@ -151,6 +157,7 @@ public class UI extends JFrame implements KeyListener, Observer {
 				lbl.setVisible(false);
 			}
 		}
+		
 	}
 
 	@Override
