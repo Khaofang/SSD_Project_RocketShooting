@@ -39,9 +39,14 @@ public class UI extends JFrame implements KeyListener, Observer {
 	private List<JLabel> lblOpponent;
 	private List<JLabel> lblRocketBullet;
 	private JLabel lblExplodeRocket;
+	private JLabel lblGameOver;
+	private JLabel lblHighScore;
+	private JLabel lblPressToReplay;
+	private JLabel lblPressToRestart;
 	private JLabel lblPressToStart;
 	private JLabel lblRocket;
 	private JLabel lblScore;
+	private JLabel lblScoreThisGame;
 	private JLabel lblTime;
 
 	// TODO: Component
@@ -99,7 +104,7 @@ public class UI extends JFrame implements KeyListener, Observer {
 			panel.add(lblRocketBullet.get(i));
 			lblRocketBullet.get(i).setVisible(false);
 		}
-		
+
 		lblExplodeRocket = new JLabel(II_EXPLODE_ROCKET);
 		panel.add(lblExplodeRocket);
 		lblExplodeRocket.setVisible(false);
@@ -124,6 +129,39 @@ public class UI extends JFrame implements KeyListener, Observer {
 		lblTime.setFont(new Font(lblPressToStart.getFont().toString(), Font.BOLD, 32));
 		panel.add(lblTime);
 		lblTime.setBounds(0, 0, lblTime.getPreferredSize().width, lblTime.getPreferredSize().height);
+
+		lblGameOver = new JLabel("GAME OVER");
+		lblGameOver.setFont(new Font(lblGameOver.getFont().toString(), Font.BOLD, 48));
+		panel.add(lblGameOver);
+		lblGameOver.setBounds(250, 60, lblGameOver.getPreferredSize().width, lblGameOver.getPreferredSize().height);
+		lblGameOver.setVisible(false);
+
+		lblScoreThisGame = new JLabel(String.format("SCORE: %5d", game.getScore()));
+		lblScoreThisGame.setFont(new Font(lblScoreThisGame.getFont().toString(), Font.BOLD, 32));
+		panel.add(lblScoreThisGame);
+		lblScoreThisGame.setBounds(250, 180, lblScoreThisGame.getPreferredSize().width,
+				lblScoreThisGame.getPreferredSize().height);
+		lblScoreThisGame.setVisible(false);
+
+		lblHighScore = new JLabel(String.format("HIGH SCORE: %5d", game.getHighScore()));
+		lblHighScore.setFont(new Font(lblScoreThisGame.getFont().toString(), Font.BOLD, 32));
+		panel.add(lblHighScore);
+		lblHighScore.setBounds(250, 220, lblHighScore.getPreferredSize().width, lblHighScore.getPreferredSize().height);
+		lblHighScore.setVisible(false);
+
+		lblPressToReplay = new JLabel("PRESS R TO VIEW LAST 5 SECONDS REPLAY");
+		lblPressToReplay.setFont(new Font(lblPressToReplay.getFont().toString(), Font.BOLD, 24));
+		panel.add(lblPressToReplay);
+		lblPressToReplay.setBounds(250, 350, lblPressToReplay.getPreferredSize().width,
+				lblPressToReplay.getPreferredSize().height);
+		lblPressToReplay.setVisible(false);
+
+		lblPressToRestart = new JLabel("PRESS SPACE TO RESTART");
+		lblPressToRestart.setFont(new Font(lblPressToRestart.getFont().toString(), Font.BOLD, 24));
+		panel.add(lblPressToRestart);
+		lblPressToRestart.setBounds(250, 400, lblPressToRestart.getPreferredSize().width,
+				lblPressToRestart.getPreferredSize().height);
+		lblPressToRestart.setVisible(false);
 	}
 
 	@Override
@@ -185,21 +223,30 @@ public class UI extends JFrame implements KeyListener, Observer {
 			}
 		} else {
 			lblRocket.setVisible(false);
-			
+
 			int x = game.getRocket().getX();
 			int y = game.getRocket().getY();
-			
-			lblExplodeRocket.setBounds(x, y, lblExplodeRocket.getPreferredSize().width, lblExplodeRocket.getPreferredSize().height);
+
+			lblExplodeRocket.setBounds(x, y, lblExplodeRocket.getPreferredSize().width,
+					lblExplodeRocket.getPreferredSize().height);
 			lblExplodeRocket.setVisible(true);
-			
+			lblGameOver.setVisible(true);
+			lblScoreThisGame.setText(String.format("SCORE: %5d", game.getScore()));
+			lblScoreThisGame.setBounds(250, 180, lblScoreThisGame.getPreferredSize().width,
+					lblScoreThisGame.getPreferredSize().height);
+			lblScoreThisGame.setVisible(true);
+			lblHighScore.setText(String.format("HIGH SCORE: %5d", game.getHighScore()));
+			lblHighScore.setBounds(250, 220, lblHighScore.getPreferredSize().width, lblHighScore.getPreferredSize().height);
+			lblHighScore.setVisible(true);
+			lblPressToReplay.setVisible(true);
+			lblPressToRestart.setVisible(true);
+
 			for (int i = 0; i < 120; i++)
 				lblEnemyBullet.get(i).setVisible(false);
 			for (int i = 0; i < 8; i++)
 				lblOpponent.get(i).setVisible(false);
 			for (int i = 0; i < 20; i++)
 				lblRocketBullet.get(i).setVisible(false);
-			
-			JOptionPane.showMessageDialog(this, "Game Over!");
 		}
 	}
 
@@ -226,11 +273,16 @@ public class UI extends JFrame implements KeyListener, Observer {
 			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 				if (game.isOver()) {
 					lblExplodeRocket.setVisible(false);
+					lblGameOver.setVisible(false);
+					lblScoreThisGame.setVisible(false);
+					lblHighScore.setVisible(false);
+					lblPressToReplay.setVisible(false);
+					lblPressToRestart.setVisible(false);
 					lblRocket.setBounds(16, 240, 64, 64);
 					lblRocket.setVisible(true);
 					game.reset();
 				}
-				
+
 				game.startGame();
 			}
 		}
