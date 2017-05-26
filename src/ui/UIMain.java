@@ -23,12 +23,12 @@ import model.Opponent;
 
 public class UIMain extends JFrame implements KeyListener, Observer {
 
-	private static ImageIcon II_BULLET_ENEMY = new ImageIcon("src/res/enemy_bullet.png");
-	private static ImageIcon II_BULLET_ROCKET = new ImageIcon("src/res/rocket_bullet.png");
-	private static ImageIcon II_ENEMY = new ImageIcon("src/res/enemy.png");
-	private static ImageIcon II_EXPLODE_ROCKET = new ImageIcon("src/res/rocket_explode.png");
-	private static ImageIcon II_ROCKET = new ImageIcon("src/res/rocket.png");
-	private static ImageIcon II_OBSTACLE = new ImageIcon("src/res/obstacle.png");
+	private ImageIcon II_BULLET_ENEMY;
+	private ImageIcon II_BULLET_ROCKET;
+	private ImageIcon II_ENEMY;
+	private ImageIcon II_EXPLODE_ROCKET;
+	private ImageIcon II_ROCKET;
+	private ImageIcon II_OBSTACLE;
 	private static int UI_WIDTH = 840;
 	private static int UI_HEIGHT = 480;
 
@@ -74,6 +74,14 @@ public class UIMain extends JFrame implements KeyListener, Observer {
 	}
 
 	public void initComponent() {
+		ClassLoader loader = this.getClass().getClassLoader();
+		II_BULLET_ENEMY = new ImageIcon(loader.getResource("res/enemy_bullet.png"));
+		II_BULLET_ROCKET = new ImageIcon(loader.getResource("res/rocket_bullet.png"));
+		II_ENEMY = new ImageIcon(loader.getResource("res/enemy.png"));
+		II_EXPLODE_ROCKET = new ImageIcon(loader.getResource("res/rocket_explode.png"));
+		II_ROCKET = new ImageIcon(loader.getResource("res/rocket.png"));
+		II_OBSTACLE = new ImageIcon(loader.getResource("res/obstacle.png"));
+		
 		lblEnemyBullet = new ArrayList<JLabel>();
 		for (int i = 0; i < 120; i++) {
 			lblEnemyBullet.add(new JLabel(II_BULLET_ENEMY));
