@@ -22,6 +22,8 @@ public class Enemy extends Opponent {
 	@Override
 	public void hide() {
 		hided = true;
+		x = 1000;
+		y = 1000;
 	}
 
 	@Override

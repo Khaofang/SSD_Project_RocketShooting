@@ -12,6 +12,7 @@ public class Rocket {
 
 	private Rocket() {
 		bulletpool = RocketBulletPool.getInstance();
+		x = 16;
 		y = 0;
 	}
 

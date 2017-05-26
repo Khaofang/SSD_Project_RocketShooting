@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -8,6 +9,7 @@ import javax.swing.JOptionPane;
 public class Game extends Observable {
 
 	private OpponentPool op;
+	private ReplayData replay;
 	private Rocket rocket;
 	private boolean over;
 	private boolean playing;
@@ -16,8 +18,9 @@ public class Game extends Observable {
 	private long time;
 
 	public Game() {
-		rocket = Rocket.getInstance();
 		op = OpponentPool.getInstance();
+		replay = new ReplayData();
+		rocket = Rocket.getInstance();
 		over = false;
 		playing = false;
 		highScore = 0;
@@ -101,7 +104,8 @@ public class Game extends Observable {
 	public void reset() {
 		over = false;
 		playing = true;
-		
+		score = 0;
+		replay.clear();	
 		op.reset();
 		rocket.reset();
 		EnemyBulletPool[] ebp = EnemyBulletPool.getInstance();
@@ -130,6 +134,7 @@ public class Game extends Observable {
 
 	public void startGame() {
 		playing = true;
+		Game self = this;
 		Thread thread = new Thread() {
 			@Override
 			public void run() {
@@ -148,7 +153,8 @@ public class Game extends Observable {
 					rocketBulletHitOpponent();
 					time += 40;
 
-					// TODO: other tasks later
+					GameData gd = new GameData(self);
+					replay.save(gd);
 
 					i++;
 					setChanged();
@@ -178,15 +184,91 @@ public class Game extends Observable {
 
 	public class GameData {
 
+		private int[][] enemyBulletPos;
+		private int[][] enemyPos;
+		private int[][] obstaclePos;
 		private int[][] rocketBulletPos;
-		private int rocketY;
+		private int[] rocketPos;
 		private long currTime;
+		
+		public GameData(Game g) {
+			enemyBulletPos = new int[120][2];
+			enemyPos = new int[6][2];
+			obstaclePos = new int[2][2];
+			rocketBulletPos = new int[20][2];
+			rocketPos = new int[2];	
+			currTime = g.getTime();
+			rocketPos[0] = 16;
+			rocketPos[1] = g.getRocket().getY();
+			
+			RocketBulletPool rbp = g.getRocket().getBulletPool();
+			OpponentPool op = g.getOp();
+			EnemyBulletPool[] ebps = EnemyBulletPool.getInstance();
+			
+			for (int i = 0; i < 20; i++) {
+				Bullet b = rbp.getBullets().get(i);
+				rocketBulletPos[i][0] = b.getX();
+				rocketBulletPos[i][1] = b.getY();
+			}
+			
+			int ei = 0, oi = 0;
+			for (int i = 0; i < 8; i++) {
+				Opponent o = op.getOpponents().get(i);
+				if (o.isObstacle()) {
+					obstaclePos[oi][0] = o.getX();
+					obstaclePos[oi][1] = o.getY();
+					oi++;
+				} else {
+					enemyPos[oi][0] = o.getX();
+					enemyPos[oi][1] = o.getY();
+					ei++;
+				}
+				
+			}
+			
+			int bi = 0;
+			for (int i = 0; i < 6; i++) {
+				for (int j = 0; j < 20; j++) {
+					Bullet b = ebps[i].getBullets().get(j);
+					enemyBulletPos[bi][0] = b.getX();
+					enemyBulletPos[bi][1] = b.getY();
+					bi++;
+				}
+			}
+			
+		}
+		
+		public long getCurrTime() {
+			return currTime;
+		}
 
 	}
 
 	private class ReplayData {
 
 		List<GameData> datas;
+		
+		public ReplayData() {
+			datas = new ArrayList<GameData>();
+		}
+		
+		public void clear() {
+			datas.clear();
+		}
+		
+		public void save(GameData gd) {
+			datas.add(gd);
+			
+			boolean notMoreThan5Sec = false;
+			while (!notMoreThan5Sec) {
+				GameData firstData = datas.get(0);
+				if (gd.getCurrTime() - firstData.getCurrTime() > 5000)
+					datas.remove(0);
+				else
+					break;
+			}
+		}
+		
 
 	}
 
