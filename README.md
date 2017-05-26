@@ -11,3 +11,6 @@ Implement algorithm of collision, and correct some classes to be correct pattern
 
 ## Patterns used:
 Memento, Object Pool, Observer, Singleton, Template
+
+## Principles used:
+GRASP
