@@ -38,6 +38,8 @@ public class UIReplay extends JFrame implements Observer {
 	private JLabel lblExplodeRocket;
 	private JLabel lblRocket;
 
+	private JLabel lblPressToStart;
+
 	private GameReplay game;
 
 	public UIReplay(GameReplay g) {
@@ -49,7 +51,6 @@ public class UIReplay extends JFrame implements Observer {
 		initComponent();
 		setResizable(false);
 		setTitle("Replay");
-
 		pack();
 		setVisible(false);
 	}
@@ -59,23 +60,27 @@ public class UIReplay extends JFrame implements Observer {
 		for (int i = 0; i < 6; i++) {
 			lblEnemy.add(new JLabel(II_ENEMY));
 			panel.add(lblEnemy.get(i));
+			lblEnemy.get(i).setVisible(true);
 		}
 		lblEnemyBullet = new ArrayList<JLabel>();
 		for (int i = 0; i < 120; i++) {
 			lblEnemyBullet.add(new JLabel(II_BULLET_ENEMY));
 			panel.add(lblEnemyBullet.get(i));
+			lblEnemyBullet.get(i).setVisible(true);
 		}
 
 		lblObstacle = new ArrayList<JLabel>();
 		for (int i = 0; i < 2; i++) {
 			lblObstacle.add(new JLabel(II_OBSTACLE));
 			panel.add(lblObstacle.get(i));
+			lblObstacle.get(i).setVisible(true);
 		}
 
 		lblRocketBullet = new ArrayList<JLabel>();
 		for (int i = 0; i < 20; i++) {
 			lblRocketBullet.add(new JLabel(II_BULLET_ROCKET));
 			panel.add(lblRocketBullet.get(i));
+			lblRocketBullet.get(i).setVisible(true);
 		}
 
 		lblExplodeRocket = new JLabel(II_EXPLODE_ROCKET);
@@ -84,6 +89,7 @@ public class UIReplay extends JFrame implements Observer {
 
 		lblRocket = new JLabel(II_ROCKET);
 		panel.add(lblRocket);
+		lblRocket.setVisible(true);
 	}
 
 	public void run() {
@@ -105,14 +111,15 @@ public class UIReplay extends JFrame implements Observer {
 
 		lblRocket.setBounds(rocketPos[0], rocketPos[1], lblRocket.getPreferredSize().width,
 				lblRocket.getPreferredSize().height);
+		lblRocket.setVisible(true);
 		for (int i = 0; i < 20; i++) {
 			lblRocketBullet.get(i).setBounds(rocketBulletPos[i][0], rocketBulletPos[i][1],
 					lblRocketBullet.get(i).getPreferredSize().width, lblRocketBullet.get(i).getPreferredSize().height);
 		}
-		
+
 		for (int i = 0; i < 6; i++) {
-			lblEnemy.get(i).setBounds(enemyPos[i][0], enemyPos[i][1],
-					lblEnemy.get(i).getPreferredSize().width, lblEnemy.get(i).getPreferredSize().height);
+			lblEnemy.get(i).setBounds(enemyPos[i][0], enemyPos[i][1], lblEnemy.get(i).getPreferredSize().width,
+					lblEnemy.get(i).getPreferredSize().height);
 		}
 		for (int i = 0; i < 120; i++) {
 			lblEnemyBullet.get(i).setBounds(enemyBulletPos[i][0], enemyBulletPos[i][1],

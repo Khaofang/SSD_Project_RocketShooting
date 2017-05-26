@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import model.Bullet;
 import model.Enemy;
 import model.Game;
+import model.GameReplay;
 import model.Opponent;
 
 public class UIMain extends JFrame implements KeyListener, Observer {
@@ -52,15 +53,16 @@ public class UIMain extends JFrame implements KeyListener, Observer {
 
 	public UIMain(Game game) {
 		this.game = game;
-		uiReplay = new UIReplay(game.getReplay());
+		GameReplay gr = game.getReplay();
+		uiReplay = new UIReplay(gr);
+		gr.addObserver(uiReplay);
 		panel = (JPanel) getContentPane();
 		panel.setPreferredSize(new Dimension(UI_WIDTH, UI_HEIGHT));
 		panel.setBackground(new Color(186, 205, 168));
 		panel.setLayout(null);
 		initComponent();
 		this.addKeyListener(this);
-
-		setTitle("Rocket Shooting v0.39");
+		setTitle("Rocket Shooting v0.42");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		pack();

@@ -238,8 +238,8 @@ public class Game extends Observable {
 					obstaclePos[oi][1] = o.getY();
 					oi++;
 				} else {
-					enemyPos[oi][0] = o.getX();
-					enemyPos[oi][1] = o.getY();
+					enemyPos[ei][0] = o.getX();
+					enemyPos[ei][1] = o.getY();
 					ei++;
 				}
 				
