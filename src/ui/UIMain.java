@@ -2,7 +2,6 @@ package ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -14,7 +13,6 @@ import java.util.Observer;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.Bullet;
@@ -22,7 +20,7 @@ import model.Enemy;
 import model.Game;
 import model.Opponent;
 
-public class UI extends JFrame implements KeyListener, Observer {
+public class UIMain extends JFrame implements KeyListener, Observer {
 
 	private static ImageIcon II_BULLET_ENEMY = new ImageIcon("src/res/enemy_bullet.png");
 	private static ImageIcon II_BULLET_ROCKET = new ImageIcon("src/res/rocket_bullet.png");
@@ -49,12 +47,12 @@ public class UI extends JFrame implements KeyListener, Observer {
 	private JLabel lblScoreThisGame;
 	private JLabel lblTime;
 
-	// TODO: Component
-
 	private Game game;
+	private UIReplay uiReplay;
 
-	public UI(Game game) {
+	public UIMain(Game game) {
 		this.game = game;
+		uiReplay = new UIReplay(game.getReplay());
 		panel = (JPanel) getContentPane();
 		panel.setPreferredSize(new Dimension(UI_WIDTH, UI_HEIGHT));
 		panel.setBackground(new Color(186, 205, 168));
@@ -169,7 +167,7 @@ public class UI extends JFrame implements KeyListener, Observer {
 		long currTime = game.getTime();
 		int currSec = ((int) (currTime / 1000)) % 60;
 		int currMin = ((int) (currTime / 60000));
-		lblTime.setText(String.format("Time: %02d:%02d", currMin, currSec));
+		lblTime.setText(String.format("Time: %02d.%02d", currMin, currSec));
 		lblTime.setBounds(0, 0, lblTime.getPreferredSize().width, lblTime.getPreferredSize().height);
 
 		lblScore.setText(String.format("%05d", game.getScore()));
@@ -235,7 +233,7 @@ public class UI extends JFrame implements KeyListener, Observer {
 			lblScoreThisGame.setBounds(250, 180, lblScoreThisGame.getPreferredSize().width,
 					lblScoreThisGame.getPreferredSize().height);
 			lblScoreThisGame.setVisible(true);
-			lblHighScore.setText(String.format("HIGH SCORE: %5d", game.getHighScore()));
+			lblHighScore.setText(String.format("HIGHEST: %5d", game.getHighScore()));
 			lblHighScore.setBounds(250, 220, lblHighScore.getPreferredSize().width, lblHighScore.getPreferredSize().height);
 			lblHighScore.setVisible(true);
 			lblPressToReplay.setVisible(true);
@@ -284,19 +282,16 @@ public class UI extends JFrame implements KeyListener, Observer {
 				}
 
 				game.startGame();
+			} else if (e.getKeyCode() == KeyEvent.VK_R) {
+				if (game.isOver()) {
+					uiReplay.run();
+				}
 			}
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-	}
-
-	public static void main(String[] args) {
-		Game g = new Game();
-		UI ui = new UI(g);
-		g.addObserver(ui);
-		ui.run();
 	}
 
 }

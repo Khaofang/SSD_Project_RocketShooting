@@ -6,10 +6,12 @@ import java.util.Observable;
 
 import javax.swing.JOptionPane;
 
+import model.GameReplay.ReplayData;
+
 public class Game extends Observable {
 
 	private OpponentPool op;
-	private ReplayData replay;
+	private GameReplay replay;
 	private Rocket rocket;
 	private boolean over;
 	private boolean playing;
@@ -19,7 +21,7 @@ public class Game extends Observable {
 
 	public Game() {
 		op = OpponentPool.getInstance();
-		replay = new ReplayData();
+		replay = new GameReplay();
 		rocket = Rocket.getInstance();
 		over = false;
 		playing = false;
@@ -37,6 +39,10 @@ public class Game extends Observable {
 	public int getHighScore() {
 		return highScore;
 	}
+	
+	public GameReplay getReplay() {
+		return replay;
+	}
 
 	public int getScore() {
 		return score;
@@ -49,6 +55,9 @@ public class Game extends Observable {
 	public void end() {
 		over = true;
 		playing = false;
+		
+		GameData gd = new GameData(this);
+		replay.save(gd);
 		
 		if (score > highScore)
 			highScore = score;
@@ -84,6 +93,10 @@ public class Game extends Observable {
 
 		return false;
 	}
+	
+	public GameData load() {
+		return null;
+	}
 
 	public boolean moveRocketDown(int rocketSize, int upperBound) {
 		if (rocket.getY() + rocketSize >= upperBound)
@@ -105,7 +118,7 @@ public class Game extends Observable {
 		over = false;
 		playing = true;
 		score = 0;
-		replay.clear();	
+		time = 0;
 		op.reset();
 		rocket.reset();
 		EnemyBulletPool[] ebp = EnemyBulletPool.getInstance();
@@ -131,10 +144,14 @@ public class Game extends Observable {
 			}
 		}
 	}
+	
+	public void saveData() {
+		GameData gd = new GameData(this);
+		replay.save(gd);
+	}
 
 	public void startGame() {
 		playing = true;
-		Game self = this;
 		Thread thread = new Thread() {
 			@Override
 			public void run() {
@@ -153,12 +170,12 @@ public class Game extends Observable {
 					rocketBulletHitOpponent();
 					time += 40;
 
-					GameData gd = new GameData(self);
-					replay.save(gd);
 
 					i++;
 					setChanged();
 					notifyObservers();
+
+					saveData();
 					
 					if (isRocketHitOpponent()) {
 						end();
@@ -184,6 +201,7 @@ public class Game extends Observable {
 
 	public class GameData {
 
+		private boolean gameOver;
 		private int[][] enemyBulletPos;
 		private int[][] enemyPos;
 		private int[][] obstaclePos;
@@ -192,6 +210,7 @@ public class Game extends Observable {
 		private long currTime;
 		
 		public GameData(Game g) {
+			gameOver = g.isOver();
 			enemyBulletPos = new int[120][2];
 			enemyPos = new int[6][2];
 			obstaclePos = new int[2][2];
@@ -238,37 +257,34 @@ public class Game extends Observable {
 			
 		}
 		
+		
 		public long getCurrTime() {
 			return currTime;
 		}
-
-	}
-
-	private class ReplayData {
-
-		List<GameData> datas;
 		
-		public ReplayData() {
-			datas = new ArrayList<GameData>();
+		public int[][] getEnemyBulletPos() {
+			return enemyBulletPos;
 		}
 		
-		public void clear() {
-			datas.clear();
+		public int[][] getEnemyPos() {
+			return enemyPos;
 		}
 		
-		public void save(GameData gd) {
-			datas.add(gd);
-			
-			boolean notMoreThan5Sec = false;
-			while (!notMoreThan5Sec) {
-				GameData firstData = datas.get(0);
-				if (gd.getCurrTime() - firstData.getCurrTime() > 5000)
-					datas.remove(0);
-				else
-					break;
-			}
+		public int[][] getObstaclePos() {
+			return obstaclePos;
 		}
 		
+		public int[][] getRocketBulletPos() {
+			return rocketBulletPos;
+		}
+		
+		public int[] getRocketPos() {
+			return rocketPos;
+		}
+		
+		public boolean getGameOver() {
+			return gameOver;
+		}
 
 	}
 

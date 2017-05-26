@@ -1,7 +1,5 @@
 package model;
 
-import ui.UI;
-
 public class Rocket {
 
 	private static Rocket instance;
