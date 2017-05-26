@@ -1,4 +1,5 @@
 # Rocket Shooting
+Runnable JAR file: RocketShooting.jar
 
 ## Team members and duties:
 ### 5810545033 Nuttapong Rojanavanich  (git: NoobieCoding)
