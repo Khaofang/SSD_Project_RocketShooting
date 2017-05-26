@@ -18,12 +18,11 @@ import javax.swing.JPanel;
 import model.Game.GameData;
 import model.GameReplay;
 
-public class UIReplay extends JFrame implements Observer {
+public class UIReplay extends JFrame implements KeyListener, Observer {
 
 	private static ImageIcon II_BULLET_ENEMY = new ImageIcon("src/res/enemy_bullet.png");
 	private static ImageIcon II_BULLET_ROCKET = new ImageIcon("src/res/rocket_bullet.png");
 	private static ImageIcon II_ENEMY = new ImageIcon("src/res/enemy.png");
-	private static ImageIcon II_EXPLODE_ROCKET = new ImageIcon("src/res/rocket_explode.png");
 	private static ImageIcon II_ROCKET = new ImageIcon("src/res/rocket.png");
 	private static ImageIcon II_OBSTACLE = new ImageIcon("src/res/obstacle.png");
 	private static int UI_WIDTH = 840;
@@ -35,10 +34,8 @@ public class UIReplay extends JFrame implements Observer {
 	private List<JLabel> lblEnemyBullet;
 	private List<JLabel> lblObstacle;
 	private List<JLabel> lblRocketBullet;
-	private JLabel lblExplodeRocket;
+	private JLabel lblReplay;
 	private JLabel lblRocket;
-
-	private JLabel lblPressToStart;
 
 	private GameReplay game;
 
@@ -48,6 +45,7 @@ public class UIReplay extends JFrame implements Observer {
 		panel.setPreferredSize(new Dimension(UI_WIDTH, UI_HEIGHT));
 		panel.setBackground(new Color(186, 205, 168));
 		panel.setLayout(null);
+		this.addKeyListener(this);
 		initComponent();
 		setResizable(false);
 		setTitle("Replay");
@@ -83,13 +81,16 @@ public class UIReplay extends JFrame implements Observer {
 			lblRocketBullet.get(i).setVisible(true);
 		}
 
-		lblExplodeRocket = new JLabel(II_EXPLODE_ROCKET);
-		panel.add(lblExplodeRocket);
-		lblExplodeRocket.setVisible(false);
-
 		lblRocket = new JLabel(II_ROCKET);
 		panel.add(lblRocket);
 		lblRocket.setVisible(true);
+
+		lblReplay = new JLabel("SPACE WHEN FINISH PREVIOUS: REPLAY / R: CLOSE");
+		panel.add(lblReplay);
+		lblReplay.setVisible(true);
+		lblReplay.setFont(new Font(lblReplay.getFont().toString(), Font.BOLD, 24));
+		lblReplay.setBounds(16, 0, lblReplay.getPreferredSize().width,
+				lblReplay.getPreferredSize().height);
 	}
 
 	public void run() {
@@ -130,6 +131,25 @@ public class UIReplay extends JFrame implements Observer {
 			lblObstacle.get(i).setBounds(obstaclePos[i][0], obstaclePos[i][1],
 					lblObstacle.get(i).getPreferredSize().width, lblObstacle.get(i).getPreferredSize().height);
 		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			if (game.getFinishReplay())
+				game.replay();
+		} else if (e.getKeyCode() == KeyEvent.VK_R) {
+			game.clear();
+			setVisible(false);
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 	}
 
 }

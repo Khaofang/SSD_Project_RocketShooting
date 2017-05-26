@@ -7,29 +7,33 @@ import java.util.Observable;
 import model.Game.GameData;
 
 public class GameReplay extends Observable {
-	
+
 	private ReplayData replay;
 	private boolean finishReplay;
-	
+	private int iData = 0;
+	private Thread thread;
+
 	public GameReplay() {
 		finishReplay = true;
 		replay = new ReplayData();
+
 	}
-	
+
+	public boolean getFinishReplay() {
+		return finishReplay;
+	}
+
 	public void save(GameData gd) {
 		replay.save(gd);
 	}
-	
+
 	public void replay() {
-		finishReplay = false;
-		Thread thread = new Thread() {
+		iData = 0;
+		thread = new Thread() {
 			@Override
 			public void run() {
 				while (replay.remain()) {
 					GameData gd = replay.load();
-					
-					System.out.println("UPDATE!");
-					System.out.println("Current rocket pos: " + gd.getRocketPos()[0] + ", " + gd.getRocketPos()[1]);
 					setChanged();
 					notifyObservers(gd);
 					try {
@@ -40,34 +44,41 @@ public class GameReplay extends Observable {
 				finishReplay = true;
 			}
 		};
-		thread.start();	
+		finishReplay = false;
+		thread.start();
+	}
+
+	public void clear() {
+		finishReplay = true;
+		thread = null;
+		replay.clear();
 	}
 
 	public class ReplayData {
 
 		List<GameData> datas;
-		
+
 		private ReplayData() {
 			datas = new ArrayList<GameData>();
 		}
-		
+
 		private void clear() {
 			datas.clear();
 		}
-		
+
 		private GameData load() {
-			GameData gd = datas.get(0);
-			datas.remove(0);
+			GameData gd = datas.get(iData);
+			iData++;
 			return gd;
 		}
-		
+
 		private boolean remain() {
-			return !datas.isEmpty();
+			return iData < datas.size() - 1;
 		}
-		
+
 		private void save(GameData gd) {
 			datas.add(gd);
-			
+
 			while (true) {
 				GameData firstData = datas.get(0);
 				if (gd.getCurrTime() - firstData.getCurrTime() > 5000)
@@ -76,7 +87,7 @@ public class GameReplay extends Observable {
 					break;
 			}
 		}
-		
+
 	}
-	
+
 }

@@ -49,11 +49,12 @@ public class UIMain extends JFrame implements KeyListener, Observer {
 	private JLabel lblTime;
 
 	private Game game;
+	private GameReplay gr;
 	private UIReplay uiReplay;
 
 	public UIMain(Game game) {
 		this.game = game;
-		GameReplay gr = game.getReplay();
+		gr = game.getReplay();
 		uiReplay = new UIReplay(gr);
 		gr.addObserver(uiReplay);
 		panel = (JPanel) getContentPane();
@@ -62,7 +63,7 @@ public class UIMain extends JFrame implements KeyListener, Observer {
 		panel.setLayout(null);
 		initComponent();
 		this.addKeyListener(this);
-		setTitle("Rocket Shooting v0.42");
+		setTitle("Rocket Shooting");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		pack();
@@ -283,6 +284,7 @@ public class UIMain extends JFrame implements KeyListener, Observer {
 					game.reset();
 				}
 
+				gr.clear();
 				game.startGame();
 			} else if (e.getKeyCode() == KeyEvent.VK_R) {
 				if (game.isOver()) {
